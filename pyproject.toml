@@ -1,0 +1,37 @@
+[tool.poetry]
+name = "op"
+version = "0.1.0"
+description = ""
+authors = ["jaasonw <jayywong92@gmail.com>"]
+license = "MIT"
+packages = [
+    { include = "scrape", from = "src" },
+    { include = "api", from = "src" },
+    { include = "transform", from = "src" },
+    { include = "load", from = "src" },
+]
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+beautifulsoup4 = "^4.12.2"
+requests = "^2.31.0"
+python-dotenv = "^1.0.0"
+fastapi = "^0.100.0"
+psycopg2-binary = "^2.9.6"
+scrapy = "^2.9.0"
+attrs = "^23.1.0"
+pygsheets = "^2.0.6"
+pandas = "^2.0.3"
+
+[tool.poetry.scripts]
+scrape = "scrape:main"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.0"
+flake8 = "^6.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
