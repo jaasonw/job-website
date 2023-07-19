@@ -5,7 +5,7 @@ async function load() {
   const url = process.env.GOOGLE_SHEETS_URL ?? "";
   const resp = await fetch(url, {
     next: {
-      revalidate: UPDATE_INTERVAL,
+      tags: ["jobs"],
     },
   });
   const csv = await resp.text();
@@ -22,7 +22,7 @@ async function load() {
 export default async function JobsTable() {
   const data = (await load()) as any[];
   return (
-    <div className="w-full overflow-x-scroll">
+    <div className="w-full overflow-x-scroll h-96 overflow-y-scroll">
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
           <tr>

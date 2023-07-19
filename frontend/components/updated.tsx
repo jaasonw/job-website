@@ -1,17 +1,15 @@
-import { UPDATE_INTERVAL } from "$lib/src/constants";
-
 async function getTime() {
   const resp = await fetch(
     "https://worldtimeapi.org/api/timezone/America/Los_Angeles",
     {
       next: {
-        revalidate: UPDATE_INTERVAL
-      }
-    }
+        tags: ["jobs"],
+      },
+    },
   );
   const json = await resp.json();
   const time = new Date(json.datetime);
-  return time.toLocaleString() + " PST";
+  return time.toLocaleString("en-US", { timeZone: "PST" }) + " PST";
 }
 
 export default async function Updated() {

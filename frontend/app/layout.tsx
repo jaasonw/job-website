@@ -65,7 +65,7 @@ export default function RootLayout({
                 </li>
                 <li>
                   <a
-                    href="#https://github.com/jaasonw/sweify/issues"
+                    href="https://github.com/jaasonw/sweify/issues"
                     className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
                   >
                     Report a Bug
@@ -83,7 +83,28 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        {children}
+        <main className="flex flex-col w-screen justify-center items-center">
+          {children}
+        </main>
+        <footer className="flex flex-col text-xs w-full p-4 items-center text-white bg-black">
+          <span>
+            Disclaimer: All the jobs displayed on this website are collected
+            from different public sources. We don&apos;t have any partnership or
+            gain with the companies.
+          </span>
+          <span>
+            If I helped your job search in any way,{" "}
+            <a href="https://jason-wong.me/donate" className="underline">
+              consider funding my boba addiction
+            </a>
+          </span>
+          <span>
+            © 2023 | Made by{" "}
+            <a href="https://jason-wong.me/" className="underline">
+              Jason Wong
+            </a>
+          </span>
+        </footer>
       </body>
     </html>
   );
