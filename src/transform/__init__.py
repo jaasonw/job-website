@@ -6,26 +6,26 @@ from transform.util import convert_relative_date_to_timestamp, get_years_of_expe
 
 def main():
     df = pd.read_csv("linkedin.csv")
-    df["date"] = df["date"].apply(convert_relative_date_to_timestamp)
-    df["years"] = df["description"].map(get_years_of_experience)
+    df["Date"] = df["Date"].apply(convert_relative_date_to_timestamp)
+    df["Years of Experience"] = df["Description"].map(get_years_of_experience)
 
     # print(df)
 
     # remove rows with more than 3 years of experience but keep Nans
-    df = df[(df["years"] <= 3) | (df["years"].isnull())]
+    df = df[(df["Years of Experience"] <= 3) | (df["Years of Experience"].isnull())]
 
     # remove rows that contain the word senior
-    df = df[~df["title"].str.contains("Senior")]
-    df = df[~df["description"].str.contains("Senior")]
+    df = df[~df["Title"].str.contains("Senior")]
+    df = df[~df["Description"].str.contains("Senior")]
 
     # remove rows that contain the word mid
-    df = df[~df["title"].str.contains("Mid")]
+    df = df[~df["Title"].str.contains("Mid")]
 
     # remove rows that contain the TS or SCI
-    df = df[~df["description"].str.contains("TS/SCI")]
+    df = df[~df["Description"].str.contains("TS/SCI")]
 
     # sort by date posted
-    df = df.sort_values(by=["date"], ascending=False)
+    df = df.sort_values(by=["Date"], ascending=False)
 
     recruiting_agencies = [
         "TEKsystems",
@@ -38,10 +38,20 @@ def main():
         "Kelly",
         "Jobot",
         "Insight Global",
+        "Remotelyy.Us",
+        "Revature",
+        "SynergisticIT",
     ]
 
     # remove rows that contain recruiting agencies
-    df = df[~df["company"].isin(recruiting_agencies)]
+    for agency in recruiting_agencies:
+        df = df[~df["Company"].str.contains(agency)]
+
+    # convert 2023-07-18T17:11:43.566939 to 2023-07-18
+    df["Date"] = df["Date"].str.split("T").str[0]
+
+    # convert nan to blank string
+    df = df.fillna("")
 
     print(df)
 
@@ -49,8 +59,4 @@ def main():
         gc = pygsheets.authorize(service_file="service_account_credential.json")
 
         sh = gc.open_by_key("1Rp1yFWi6yJMhUGq2fkfGUhkmteScma5r9XkUEbqhq14")
-        for index, row in df.iterrows():
-            # convert nan to blank string
-            row = row.fillna("")
-            print(list(row))
-            sh.sheet1.append_table(list(row), start="A1", end=None, dimension="ROWS")
+        sh.sheet1.set_dataframe(df, "A1", copy_head=True)
