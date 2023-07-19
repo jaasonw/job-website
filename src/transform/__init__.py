@@ -42,6 +42,7 @@ def main():
         "Revature",
         "SynergisticIT",
         "Cybertec",
+        "Mindpal",
     ]
 
     # remove rows that contain recruiting agencies
