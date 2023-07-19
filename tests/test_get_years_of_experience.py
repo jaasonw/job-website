@@ -14,7 +14,7 @@ def test_get_years_of_experience():
             Strong written and verbal communication
             """
         )
-        == "5"
+        == 5
     )
     assert (
         get_years_of_experience(
@@ -27,7 +27,7 @@ def test_get_years_of_experience():
             Proven ability to write clean, clear and commented code 
             """
         )
-        == "3"
+        == 3
     )
     assert (
         get_years_of_experience(
@@ -45,7 +45,7 @@ def test_get_years_of_experience():
             bottlenecks
             """
         )
-        == "2, 2"
+        == 2
     )
     assert (
         get_years_of_experience(
@@ -59,5 +59,5 @@ def test_get_years_of_experience():
             A willingness to learn new frameworks and technologies as needed
             """
         )
-        == "2, 2, 1"
+        == 2
     )
