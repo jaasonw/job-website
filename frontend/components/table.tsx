@@ -37,7 +37,7 @@ export default async function JobsTable() {
               {row.map((col: any, i: number) =>
                 i == 0 ? (
                   <td className="px-6 py-4">
-                    <a className="underline" href={col}>
+                    <a className="underline" href={col} target="_blank">
                       Apply
                     </a>
                   </td>

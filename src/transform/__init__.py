@@ -41,6 +41,7 @@ def main():
         "Remotelyy.Us",
         "Revature",
         "SynergisticIT",
+        "Cybertec",
     ]
 
     # remove rows that contain recruiting agencies
