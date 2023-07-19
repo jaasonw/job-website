@@ -1,6 +1,6 @@
 services:
   sweify-scraper:
-    image: .
+    build: .
     container_name: sweify-scraper
     restart: unless-stopped
     volumes:
