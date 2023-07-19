@@ -61,3 +61,50 @@ def test_get_years_of_experience():
         )
         == 2
     )
+    assert (
+        get_years_of_experience(
+            """
+            Software Engineer (Full-Stack/Mobile) Remote (US Only) San 
+            Francisco, California $120k $200k +  up to 0.50% Our Client: Our 
+            client is the market-leading credit card scanner that works on all 
+            credit cards. With our fast and easy integration, businesses can 
+            boost payment conversion by over 5%, and reduce fraud by over 50% 
+            with only an hour of engineering work. We are available as a mobile 
+            SDK as well as a web API. What they do: Our client is building the 
+            future of authentication, starting with the ability to make 
+            seamless, fraud-free payments on any mobile device. Our first 
+            product is an SDK that, by imaging a credit card, supports apps 
+            in preventing fraud and enhancing conversion. The SDK is powered by 
+            a deep learning model tailored for device execution. We'd love to 
+            hear from you if you wish to be a part of one of the first 
+            organisations working in the deep learning on mobile industry! Role 
+            Summary: We're looking for a Software Engineer (Full-Stack) to join 
+            Our Client as part of the founding engineering team. You will 
+            work directly with the CEO to design and build new features, roll 
+            out new products, and increase customer yield and retention. You 
+            will be expected to ship fast, iterate rapidly, and identify 
+            ongoing opportunities to deliver value to customers. 5 - 12 years 
+            of relevant work experience. However, there are always exceptions 
+            to the rule if the candidate is exceptional in other ways. Has 
+            experience with writing, releasing, maintaining at least one of: 
+            mobile code, backend code, or computer vision models (and is 
+            interested in learning the rest) 2+ years relevant experience at a 
+            reputable startup is a MUST Expertise in either iOS or Android 
+            Professional experience & expertise in Swift and/or Java Ideal 
+            candidate traits Accustomed to having significant ownership over 
+            user-facing product Has strong, demonstrable experience shipping 
+            high-quality products Is comfortable in a variety of engineering 
+            settings, from frontend UX changes to database design to 
+            quick-and-dirty python scripts Likes to ship code and test 
+            user-facing changes Can work independently Has experience with 
+            writing, releasing, maintaining at least one of: mobile code, 
+            backend code, or computer vision models (and is interested in 
+            learning the rest) Ideally has expertise in Swift or Java About 
+            The Team We leverage our expertise in customer experience, fraud 
+            prevention, and computer vision to build products that delight our 
+            customers. Our mission-critical challenge? Reducing fraud and 
+            improving conversion for our customers.
+            """
+        )
+        == 12
+    )

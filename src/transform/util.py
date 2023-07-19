@@ -47,7 +47,7 @@ def get_years_of_experience(description):
                                 for e in re.split("[^0-9]", year.split(" ")[0])
                                 # only include years of experience that are less than 12
                                 # avoids edge cases like "in business for 100 years"
-                                if e != "" and int(e) < 12
+                                if e != "" and int(e) < 14
                             ]
                         )
                     )
