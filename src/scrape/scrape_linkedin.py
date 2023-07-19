@@ -31,7 +31,7 @@ class LinkedinSpider(scrapy.Spider):
             "start": 0,
         }
         urls = []
-        for i in range(1):
+        for i in range(3):
             params["pageNum"] = i
             params["start"] = i * 25
             urls.append(

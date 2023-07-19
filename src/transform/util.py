@@ -38,9 +38,9 @@ def get_years_of_experience(description):
         # if there are no years of experience, return None
         if years_of_experience:
             # for each year of experience, get the average (for cases of ranges)
-            years_of_experience = ", ".join(
+            years_of_experience = max(
                 [
-                    str(
+                    int(
                         statistics.mean(
                             [
                                 int(e)

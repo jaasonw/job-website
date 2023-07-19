@@ -26,6 +26,7 @@ pandas = "^2.0.3"
 
 [tool.poetry.scripts]
 scrape = "scrape:main"
+transform = "transform:main"
 
 
 [tool.poetry.group.dev.dependencies]
