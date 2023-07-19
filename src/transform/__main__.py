@@ -70,7 +70,7 @@ def main():
         sh = gc.open_by_key(os.getenv("GOOGLE_SHEETS_ID"))
         sh.sheet1.set_dataframe(df, "A1", copy_head=True)
 
-        requests.request(os.environ.get("REVALIDATE_URL"))
+        requests.request("GET", os.environ.get("REVALIDATE_URL"))
 
 
 if __name__ == "__main__":
