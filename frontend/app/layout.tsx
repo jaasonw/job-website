@@ -86,7 +86,7 @@ export default function RootLayout({
         <main className="flex flex-col w-screen justify-center items-center">
           {children}
         </main>
-        <footer className="flex flex-col text-xs w-full p-4 items-center text-white bg-black">
+        <footer className="flex flex-col text-xs w-full p-4 items-center text-center text-white bg-black">
           <span>
             Disclaimer: All the jobs displayed on this website are collected
             from different public sources. We don&apos;t have any partnership or
@@ -102,6 +102,10 @@ export default function RootLayout({
             © 2023 | Made by{" "}
             <a href="https://jason-wong.me/" className="underline">
               Jason Wong
+            </a>{" "}
+            | Open source under{" "}
+            <a href="https://github.com/jaasonw/sweify" className="underline">
+              MIT
             </a>
           </span>
         </footer>
