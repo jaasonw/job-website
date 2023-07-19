@@ -11,7 +11,7 @@ export default function Home() {
           Unemployed
         </h1>
         <p className="text-center text-2xl text-gray-500">
-          We'll sift through all the bullshit so you don't have to
+          We'll sift through all the BS so you don't have to
         </p>
         <Updated></Updated>
         <p className="text-gray-500 text-sm">
@@ -21,7 +21,7 @@ export default function Home() {
       </section>
       <section className="flex flex-col items-center max-w-6xl my-20 gap-1">
         <h2 className="text-5xl text-center font-bold">
-          So what the fuck does this mean for you?
+          So what does this mean for you?
         </h2>
         <p className="text-center text-2xl">Great question, This means</p>
         <p className="text-center text-2xl">❌ No Linkedin "Promoted" BS</p>
@@ -48,7 +48,12 @@ export default function Home() {
             consider funding my boba addiction
           </a>
         </span>
-        <span>© 2023 | Made by a broke unemployed bitch</span>
+        <span>
+          © 2023 | Made by{" "}
+          <a href="https://jason-wong.me/" className="underline">
+            Jason Wong
+          </a>
+        </span>
       </footer>
     </section>
   );
