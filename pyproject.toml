@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "op"
+name = "sweify"
 version = "0.1.0"
 description = ""
 authors = ["jaasonw <jayywong92@gmail.com>"]
@@ -17,10 +17,8 @@ python = "^3.11"
 beautifulsoup4 = "^4.12.2"
 requests = "^2.31.0"
 python-dotenv = "^1.0.0"
-fastapi = "^0.100.0"
 psycopg2-binary = "^2.9.6"
 scrapy = "^2.9.0"
-attrs = "^23.1.0"
 pygsheets = "^2.0.6"
 pandas = "^2.0.3"
 
