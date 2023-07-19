@@ -1,0 +1,9 @@
+services:
+  sweify-scraper:
+    image: .
+    container_name: sweify-scraper
+    restart: unless-stopped
+    volumes:
+      - ./data:/app
+    env_file:
+      - .env

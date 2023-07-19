@@ -1,0 +1,1 @@
+0 */12 * * * /usr/local/bin/python -m scrape >> /var/log/cron.log 2>&1 && /usr/local/bin/python -m transform >> /var/log/cron.log 2>&1

@@ -1,10 +1,7 @@
 import csv
-import re
-import statistics
 import urllib.parse
 from urllib.parse import urljoin, urlparse
 
-import pygsheets
 import scrapy
 from scrapy.crawler import CrawlerProcess
 
@@ -20,6 +17,12 @@ class LinkedinSpider(scrapy.Spider):
     }
 
     def start_requests(self):
+        with open("linkedin.csv", "w") as f:
+            writer = csv.writer(f)
+            writer.writerow(
+                ["URL", "Title", "Company", "Date", "Description", "Location"]
+            )
+
         params = {
             "keywords": "Software Engineer",
             "location": "California, United States",
@@ -93,25 +96,8 @@ class LinkedinSpider(scrapy.Spider):
             "date_posted": date_posted,
             "description": description,
             "location": location,
-            # "years_of_experience": years_of_experience,
         }
-        # sh.sheet1.append_table(
-        #     list(result.values()), start="A1", end=None, dimension="ROWS"
-        # )
         with open("linkedin.csv", "a") as f:
             writer = csv.writer(f)
             writer.writerow(list(result.values()))
-            # writer.writerows(list(result.values()))
-            # f.write(",".join() + "\n")
-        # self.log(list(result.values()))
         yield result["url"]
-
-
-def scrape():
-    process = CrawlerProcess()
-    process.crawl(LinkedinSpider)
-    process.start()
-
-
-if __name__ == "__main__":
-    scrape()
