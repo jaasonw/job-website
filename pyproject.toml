@@ -26,6 +26,8 @@ schedule = "^1.2.0"
 [tool.poetry.scripts]
 scrape = "scrape:main"
 transform = "transform:main"
+main = "main:main"
+main_debug = "main:etl"
 
 
 [tool.poetry.group.dev.dependencies]
