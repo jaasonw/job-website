@@ -1,12 +1,6 @@
-from scrapy.crawler import CrawlerProcess
-from scrape.scrape_linkedin import LinkedinSpider
-
-
-def main():
-    process = CrawlerProcess()
-    process.crawl(LinkedinSpider)
-    process.start()
-
+from scrape.scrape_linkedin import scrape
+from transform import parse
 
 if __name__ == "__main__":
-    main()
+    scrape()
+    parse(upload=True)

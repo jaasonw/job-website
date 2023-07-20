@@ -101,3 +101,9 @@ class LinkedinSpider(scrapy.Spider):
             writer = csv.writer(f)
             writer.writerow(list(result.values()))
         yield result["url"]
+
+
+def scrape():
+    process = CrawlerProcess()
+    process.crawl(LinkedinSpider)
+    process.start()
