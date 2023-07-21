@@ -17,6 +17,8 @@ if __name__ == "__main__":
         scrape()
     elif sys.argv[1] == "--parse-only":
         parse(upload=True)
+    elif sys.argv[1] == "--dry-run":
+        etl()
     else:
         schedule.every().day.at("10:00").do(etl)
         schedule.every().day.at("22:00").do(etl)

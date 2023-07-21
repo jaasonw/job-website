@@ -10,4 +10,4 @@ RUN poetry install --no-dev
 RUN pip install .
 
 
-CMD ["python", "-m", "sweify", "--parse-only"]
+CMD ["python", "-m", "sweify"]
