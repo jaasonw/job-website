@@ -83,7 +83,7 @@ export default function RootLayout({
             </div>
           </div>
         </nav>
-        <main className="flex flex-col w-screen justify-center items-center">
+        <main className="flex flex-col w-full justify-center items-center">
           {children}
         </main>
         <footer className="flex flex-col text-xs w-full p-4 items-center text-center text-white bg-black">

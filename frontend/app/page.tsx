@@ -75,7 +75,7 @@ export default function Home() {
               See:{" "}
               <a
                 className="underline"
-                href="https://github.com/jaasonw/sweify/blob/main/src/transform/__main__.py#L37"
+                href="https://github.com/jaasonw/sweify/blob/main/src/transform/__init__.py#L37"
               >
                 here
               </a>
