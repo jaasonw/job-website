@@ -13,16 +13,17 @@ def etl():
 
 
 if __name__ == "__main__":
-    if sys.argv[1] == "--scrape-only":
-        scrape()
-    elif sys.argv[1] == "--parse-only":
-        parse(upload=True)
-    elif sys.argv[1] == "--dry-run":
-        etl()
-    else:
+    if len(sys.argv) == 1:
         schedule.every().day.at("10:00").do(etl)
         schedule.every().day.at("22:00").do(etl)
 
         while True:
             schedule.run_pending()
             time.sleep(1)
+
+    if sys.argv[1] == "--scrape-only":
+        scrape()
+    elif sys.argv[1] == "--parse-only":
+        parse(upload=True)
+    elif sys.argv[1] == "--dry-run":
+        etl()
