@@ -11,7 +11,7 @@ from transform.util import convert_relative_date_to_timestamp, get_years_of_expe
 load_dotenv()
 
 
-def parse(upload):
+def parse(upload=False):
     df = pd.read_csv("linkedin.csv")
     df["Date"] = df["Date"].apply(convert_relative_date_to_timestamp)
     df["Years of Experience"] = df["Description"].map(get_years_of_experience)

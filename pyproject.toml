@@ -8,7 +8,7 @@ packages = [
     { include = "scrape", from = "src" },
     { include = "api", from = "src" },
     { include = "transform", from = "src" },
-    { include = "load", from = "src" },
+    { include = "sweify", from = "src" },
 ]
 
 
@@ -22,12 +22,6 @@ scrapy = "^2.9.0"
 pygsheets = "^2.0.6"
 pandas = "^2.0.3"
 schedule = "^1.2.0"
-
-[tool.poetry.scripts]
-scrape = "scrape:main"
-transform = "transform:main"
-main = "main:main"
-main_debug = "main:etl"
 
 
 [tool.poetry.group.dev.dependencies]
