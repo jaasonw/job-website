@@ -4,6 +4,7 @@ async function getTime() {
     {
       next: {
         tags: ["jobs"],
+        revalidate: 0,
       },
     },
   );

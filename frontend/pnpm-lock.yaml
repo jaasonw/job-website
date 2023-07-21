@@ -12,7 +12,6 @@ specifiers:
   eslint-config-next: 13.4.10
   flowbite: ^1.7.0
   flowbite-react: ^0.4.11
-  google: link:next/font/google
   next: 13.4.10
   papaparse: ^5.4.1
   postcss: 8.4.26
@@ -33,7 +32,6 @@ dependencies:
   eslint-config-next: 13.4.10_ko3fmmbeyij36muomfgt2u76xu
   flowbite: 1.7.0
   flowbite-react: 0.4.11_kr4dcv65rgkztwdnzcyfm2i7j4
-  google: link:next/font/google
   next: 13.4.10_biqbaboplfbrettd7655fr4n2y
   papaparse: 5.4.1
   postcss: 8.4.26

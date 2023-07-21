@@ -6,6 +6,7 @@ async function load() {
   const resp = await fetch(url, {
     next: {
       tags: ["jobs"],
+      revalidate: 0,
     },
   });
   const csv = await resp.text();
