@@ -100,7 +100,7 @@ class LinkedinSpider(scrapy.Spider):
         with open("linkedin.csv", "a") as f:
             writer = csv.writer(f)
             writer.writerow(list(result.values()))
-        yield result["url"]
+        # yield result["url"]
 
 
 def scrape():
