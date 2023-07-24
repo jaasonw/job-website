@@ -4,7 +4,7 @@ import Papa from "papaparse";
 async function load() {
   const url = process.env.GOOGLE_SHEETS_URL ?? "";
   const resp = await fetch(url, {
-    cache: "no-store",
+    next: { revalidate: 60 * 60 },
   });
   const csv = await resp.text();
   let parsed = Papa.parse(csv);

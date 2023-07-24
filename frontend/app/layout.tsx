@@ -106,6 +106,10 @@ export default function RootLayout({
             | Open source under{" "}
             <a href="https://github.com/jaasonw/sweify" className="underline">
               MIT
+            </a>{" "}
+            | Inspired by{" "}
+            <a href="https://www.freshswe.com/" className="underline">
+              freshSWE
             </a>
           </span>
         </footer>
