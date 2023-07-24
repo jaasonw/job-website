@@ -15,7 +15,7 @@ def etl():
 if __name__ == "__main__":
     if len(sys.argv) == 1:
         schedule.every().day.at("11:30", "US/Pacific").do(etl)
-        schedule.every().day.at("6:00", "US/Pacific").do(etl)
+        schedule.every().day.at("06:00", "US/Pacific").do(etl)
 
         while True:
             schedule.run_pending()
