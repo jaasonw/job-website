@@ -4,14 +4,10 @@ import Papa from "papaparse";
 async function load() {
   const url = process.env.GOOGLE_SHEETS_URL ?? "";
   const resp = await fetch(url, {
-    next: {
-      tags: ["jobs"],
-      revalidate: 0,
-    },
+    cache: "no-store",
   });
   const csv = await resp.text();
   let parsed = Papa.parse(csv);
-  console.log(parsed.data[0]);
 
   // remove 4th column from data
   parsed.data = parsed.data.map((col: any) =>

@@ -1,7 +1,6 @@
 lockfileVersion: 5.4
 
 specifiers:
-  '@next/font': ^13.4.10
   '@trivago/prettier-plugin-sort-imports': ^4.1.1
   '@types/node': 20.4.2
   '@types/papaparse': ^5.3.7
@@ -22,7 +21,6 @@ specifiers:
   typescript: 5.1.6
 
 dependencies:
-  '@next/font': 13.4.10
   '@trivago/prettier-plugin-sort-imports': 4.1.1_prettier@3.0.0
   '@types/node': 20.4.2
   '@types/react': 18.2.15
@@ -310,10 +308,6 @@ packages:
     resolution: {integrity: sha512-YJqyq6vk39JQfvaNtN83t/p5Jy45+bazRL+V4QI8FPd3FBqFYMEsULiwRLgSJMgFqkk4t4JbeZurz+gILEAFpA==}
     dependencies:
       glob: 7.1.7
-    dev: false
-
-  /@next/font/13.4.10:
-    resolution: {integrity: sha512-BqV71ikHIFh+PZLpCR0nMZnlg/3Hcuw9qIUN42I4iCpneDHHiViUtanUeE113gy0Wm9oePTGX5OeKnPbSNnnHA==}
     dev: false
 
   /@next/swc-darwin-arm64/13.4.10:

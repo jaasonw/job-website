@@ -1,24 +1,21 @@
-// async function getTime() {
-//   const resp = await fetch(
-//     "http://worldtimeapi.org/api/timezone/America/Los_Angeles",
-//     {
-//       next: {
-//         tags: ["jobs"],
-//         revalidate: 0,
-//       },
-//     },
-//   );
-//   const json = await resp.json();
-//   const time = new Date(json.datetime);
-//   return time.toLocaleString("en-US", { timeZone: "PST" }) + " PST";
-// }
+import Papa from "papaparse";
+
+async function getTime() {
+  const url = process.env.GOOGLE_SHEETS_METADATA_URL ?? "";
+  const resp = await fetch(url, {
+    cache: "no-store",
+  });
+  const csv = await resp.text();
+  let parsed: any = Papa.parse(csv);
+  if (parsed.data.length < 2) return "unknown";
+  else return parsed.data[1][0];
+}
 
 export default async function Updated() {
-  // const time = await getTime();
+  const time = await getTime();
   return (
     <div className="bg-green-400 p-1 rounded-md">
-      <span className="font-bold">Last updated:</span>{" "}
-      {"(feature broken will fix soon)"}
+      <span className="font-bold">Last updated:</span> {time}
     </div>
   );
 }

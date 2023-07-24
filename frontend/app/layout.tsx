@@ -1,6 +1,5 @@
 import "./globals.css";
-import { Navbar } from "flowbite-react";
-import { Inter } from "@next/font/google";
+import { Inter } from "next/font/google";
 export const metadata = {
   title: "title",
   description: "description",
