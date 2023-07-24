@@ -4,6 +4,8 @@ import statistics
 
 
 def convert_relative_date_to_timestamp(relative_date_string):
+    relative_date_string = relative_date_string.lower()
+
     current_datetime = datetime.now()
     relative_date_delta = None
 
@@ -16,9 +18,13 @@ def convert_relative_date_to_timestamp(relative_date_string):
     elif "day" in relative_date_string:
         days_ago = int(relative_date_string.split(" ")[0])
         relative_date_delta = timedelta(days=days_ago)
-    elif "hour" in relative_date_string:
-        hours_ago = int(relative_date_string.split()[0])
-        relative_date_delta = timedelta(hours=hours_ago)
+    elif (
+        "hour" in relative_date_string
+        or "minute" in relative_date_string
+        or "second" in relative_date_string
+        or "now" in relative_date_string
+    ):
+        relative_date_delta = timedelta(seconds=1)
 
     if relative_date_delta:
         new_datetime = current_datetime - relative_date_delta

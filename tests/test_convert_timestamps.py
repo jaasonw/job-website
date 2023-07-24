@@ -38,3 +38,23 @@ def test_convert_relative_date_to_timestamp():
         datetime.datetime.fromisoformat(isotime).day
         == (datetime.datetime.today() + datetime.timedelta(days=-30 * 7)).day
     )
+
+    isotime = convert_relative_date_to_timestamp("Just now")
+    assert (
+        datetime.datetime.fromisoformat(isotime).day == (datetime.datetime.today()).day
+    )
+
+    isotime = convert_relative_date_to_timestamp("5 hours ago")
+    assert (
+        datetime.datetime.fromisoformat(isotime).day == (datetime.datetime.today()).day
+    )
+
+    isotime = convert_relative_date_to_timestamp("5 minutes ago")
+    assert (
+        datetime.datetime.fromisoformat(isotime).day == (datetime.datetime.today()).day
+    )
+
+    isotime = convert_relative_date_to_timestamp("5 minutes ago")
+    assert (
+        datetime.datetime.fromisoformat(isotime).day == (datetime.datetime.today()).day
+    )
