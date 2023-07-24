@@ -52,6 +52,8 @@ def parse(upload=False):
         "Mindpal",
         "Cyberjin",
         "Get It Recruit",
+        "Next Generation Technology",
+        "Albin Engineering Services",
     ]
 
     # remove rows that contain recruiting agencies
