@@ -1,6 +1,6 @@
 async function getTime() {
   const resp = await fetch(
-    "https://worldtimeapi.org/api/timezone/America/Los_Angeles",
+    "http://worldtimeapi.org/api/timezone/America/Los_Angeles",
     {
       next: {
         tags: ["jobs"],
