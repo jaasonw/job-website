@@ -1,10 +1,13 @@
 import os
 import sys
+from datetime import datetime
 
 import pandas as pd
 import pygsheets
-from dotenv import load_dotenv
+import pytz
 import requests
+from dotenv import load_dotenv
+from pytz import timezone
 
 from transform.util import convert_relative_date_to_timestamp, get_years_of_experience
 
@@ -27,6 +30,10 @@ def parse(upload=False):
 
     # remove rows that contain the word mid
     df = df[~df["Title"].str.contains("Mid")]
+
+    # remove rows that contain II or III
+    df = df[~df["Title"].str.contains("II")]
+    df = df[~df["Title"].str.contains("III")]
 
     # remove rows that contain the TS or SCI
     df = df[~df["Description"].str.contains("TS/SCI")]
@@ -73,5 +80,18 @@ def parse(upload=False):
 
         sh = gc.open_by_key(os.getenv("GOOGLE_SHEETS_ID"))
         sh.sheet1.set_dataframe(df, "A1", copy_head=True)
+
+        date_format = "%m/%d/%Y %I:%M:%S %p %Z"
+        date = datetime.now(tz=pytz.utc)
+        date = date.astimezone(timezone("US/Pacific"))
+        date = date.strftime(date_format)
+
+        # scuffed and i do not care
+        last_updated = {"last_updated": [date]}
+        last_updated = pd.DataFrame.from_dict(last_updated)
+        print(last_updated)
+        sh.worksheet_by_title("Metadata").set_dataframe(
+            last_updated, "A1", copy_head=True
+        )
 
         requests.request("GET", os.environ.get("REVALIDATE_URL"))
