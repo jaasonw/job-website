@@ -5,7 +5,7 @@ import { UPDATE_INTERVAL } from "$lib/src/constants";
 export default function Home() {
   return (
     <section className="flex flex-col w-full max-w-5xl px-3 justify-center items-center">
-      <section className="flex flex-col items-center mt-16 gap-4">
+      <section className="flex flex-col items-center mt-24 gap-4">
         <h1 className="text-6xl text-center font-bold">
           No BS SWE Jobs for College Kids and mfs who graduated from Student to
           Unemployed
@@ -17,7 +17,7 @@ export default function Home() {
         <p className="text-gray-500 text-sm">Updated twice a day</p>
       </section>
       <JobsTable></JobsTable>
-      <section className="flex flex-col items-center my-44 gap-1">
+      <section className="flex flex-col items-center my-52 gap-1">
         <h2 className="text-5xl text-center font-bold">
           So what does this mean for you?
         </h2>
