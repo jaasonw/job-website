@@ -14,11 +14,10 @@ def etl():
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
-        schedule.every().day.at("11:30", "US/Pacific").do(etl)
-        schedule.every().day.at("06:00", "US/Pacific").do(etl)
+        schedule.every(5).hours.do(etl)
 
         while True:
-            schedule.run_pending()
+            schedule.run_all()
             time.sleep(1)
 
     if sys.argv[1] == "--scrape-only":

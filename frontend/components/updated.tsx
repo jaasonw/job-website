@@ -3,7 +3,7 @@ import Papa from "papaparse";
 async function getTime() {
   const url = process.env.GOOGLE_SHEETS_METADATA_URL ?? "";
   const resp = await fetch(url, {
-    next: { revalidate: 60 * 60 },
+    cache: "no-store",
   });
   const csv = await resp.text();
   let parsed: any = Papa.parse(csv);
