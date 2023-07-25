@@ -61,6 +61,7 @@ def parse(upload=False):
         "Get It Recruit",
         "Next Generation Technology",
         "Albin Engineering Services",
+        "Ledgent Technology",
     ]
 
     # remove rows that contain recruiting agencies
