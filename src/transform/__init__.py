@@ -26,7 +26,9 @@ def parse(upload=False):
 
     # remove rows that contain the word senior
     df = df[~df["Title"].str.contains("Senior")]
+    df = df[~df["Title"].str.contains("Sr.")]
     df = df[~df["Description"].str.contains("Senior")]
+    df = df[~df["Description"].str.contains("Sr.")]
 
     # remove rows that contain the word mid
     df = df[~df["Title"].str.contains("Mid")]
@@ -62,6 +64,9 @@ def parse(upload=False):
         "Next Generation Technology",
         "Albin Engineering Services",
         "Ledgent Technology",
+        "Trine IT Inc",
+        "Magnus Technology Solutions",
+        "Amick Brown",
     ]
 
     # remove rows that contain recruiting agencies
