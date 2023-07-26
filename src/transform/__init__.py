@@ -67,6 +67,8 @@ def parse(upload=False):
         "Trine IT Inc",
         "Magnus Technology Solutions",
         "Amick Brown",
+        "FiSec Global Inc",
+        "Global Hires, LLC",
     ]
 
     # remove rows that contain recruiting agencies

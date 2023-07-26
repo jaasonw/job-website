@@ -17,7 +17,7 @@ if __name__ == "__main__":
         schedule.every(5).hours.do(etl)
 
         while True:
-            schedule.run_all()
+            schedule.run_pending()
             time.sleep(1)
 
     if sys.argv[1] == "--scrape-only":
