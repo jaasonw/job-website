@@ -22,7 +22,7 @@ def parse(upload=False):
     df = pd.read_csv("linkedin.csv")
     df["Date"] = df["Date"].apply(convert_relative_date_to_timestamp)
     df["Years of Experience"] = df["Description"].map(get_years_of_experience)
-    df["Technologies"] = df["Description"].map(get_tech_stack)
+    df["Technologies"] = df["Description"].map(lambda x: ", ".join(get_tech_stack(x)))
 
     # print(df)
 
