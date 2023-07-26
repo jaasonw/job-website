@@ -65,3 +65,122 @@ def get_years_of_experience(description):
     except statistics.StatisticsError:
         years_of_experience = None
     return years_of_experience
+
+
+def get_tech_stack(description):
+    languages = [
+        "python",
+        "javascript",
+        "java",
+        "c#",
+        "php",
+        "c++",
+        "c",
+        "r",
+        "swift",
+        "objective-c",
+        "typescript",
+        "ruby",
+        "vb.net",
+        "assembly",
+        "go",
+        "matlab",
+        "vba",
+        "kotlin",
+        "scala",
+        "rust",
+        "dart",
+        "perl",
+        "elixir",
+        "clojure",
+        "groovy",
+        "css",
+        "sql",
+    ]
+
+    frameworks = [
+        "react",
+        "angular",
+        "vue",
+        "spring",
+        "django",
+        "flask",
+        "laravel",
+        "express",
+        "ruby on rails",
+        "asp.net",
+        "bootstrap",
+        "jquery",
+        "symfony",
+        "cakephp",
+        "codeigniter",
+    ]
+
+    databases = [
+        "mysql",
+        "postgresql",
+        "mariadb",
+        "mongodb",
+        "redis",
+        "sqlite",
+        "oracle",
+        "elasticsearch",
+        "cassandra",
+        "mssql",
+        "dynamodb",
+        "firebase",
+        "couchdb",
+        "neo4j",
+        "influxdb",
+        "riak",
+        "memcached",
+        "hbase",
+        "ravendb",
+        "nosql",
+    ]
+
+    cloud_providers = [
+        "aws",
+        "azure",
+        "google cloud",
+    ]
+
+    devops = [
+        "docker",
+        "kubernetes",
+        "jenkins",
+        "ansible",
+        "terraform",
+        "vagrant",
+        "puppet",
+        "chef",
+        "bamboo",
+        "gitlab",
+        "circleci",
+        "travis ci",
+        "github actions",
+        "bitbucket pipelines",
+        "azure pipelines",
+    ]
+
+    misc = [
+        "linux",
+        "unix",
+        "windows",
+        "macos",
+        "bash",
+        "powershell",
+        "git",
+        "jira",
+        "confluence",
+        "kafka",
+        "rest",
+    ]
+
+    tech_stack = set()
+
+    for tech in [*languages, *frameworks, *databases, *cloud_providers, *devops, *misc]:
+        if re.search(f"\\b{re.escape(tech)}\\b", description.lower()):
+            tech_stack.add(tech)
+
+    return [s.title() for s in list(tech_stack)]
