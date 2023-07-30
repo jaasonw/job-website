@@ -14,7 +14,7 @@ export default function Home() {
           We'll sift through all the BS so you don't have to
         </p>
         <Updated />
-        <p className="text-gray-500 text-sm">Updated every 5 hours</p>
+        <p className="text-gray-500 text-sm">Updated twice a day</p>
       </section>
       <JobsTable />
       <section className="flex flex-col items-center my-52 gap-1">
@@ -106,10 +106,7 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-xl font-bold">How often will this update?</h3>
-            <p className="text-lg">
-              The plan is to update this every 5 hours but sometimes my cron job
-              has different ideas ¯\_(ツ)_/¯
-            </p>
+            <p className="text-lg">The plan is to update this twice a day.</p>
           </div>
         </div>
       </section>
