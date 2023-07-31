@@ -75,6 +75,11 @@ def parse(upload=False):
         "FiSec Global Inc",
         "Global Hires, LLC",
         "Zortech Solutions",
+        "Pattern Learning AI - Career & Tech Recruitment Reimagined!",
+        "Patterned Learning AI",
+        "Talentify.io",
+        "Tata Consultancy Services",
+        "BairesDev",
     ]
 
     # remove rows that contain recruiting agencies
