@@ -73,7 +73,7 @@ def get_tech_stack(description):
         "Javascript",
         "Java",
         "C#",
-        "Php",
+        "PHP",
         "C++",
         "C",
         "R",

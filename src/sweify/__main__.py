@@ -23,6 +23,9 @@ if __name__ == "__main__":
     if sys.argv[1] == "--scrape-only":
         scrape()
     elif sys.argv[1] == "--parse-only":
-        parse(upload=True)
+        if "--upload" in sys.argv:
+            parse(upload=True)
+        else:
+            parse(upload=False)
     elif sys.argv[1] == "--dry-run":
         etl()

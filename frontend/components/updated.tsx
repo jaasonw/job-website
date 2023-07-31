@@ -1,21 +1,21 @@
 import Papa from "papaparse";
 
-async function getTime() {
+async function getMetadata() {
   const url = process.env.GOOGLE_SHEETS_METADATA_URL ?? "";
   const resp = await fetch(url, {
     cache: "no-store",
   });
   const csv = await resp.text();
-  let parsed: any = Papa.parse(csv);
-  if (parsed.data.length < 2) return "unknown";
-  else return parsed.data[1][0];
+  let parsed: any = Papa.parse(csv, { header: true });
+  return parsed.data[0];
 }
 
 export default async function Updated() {
-  const time = await getTime();
+  const metadata = await getMetadata();
   return (
     <div className="bg-green-400 p-1 rounded-md">
-      <span className="font-bold">Last updated:</span> {time}
+      <span className="font-bold">Last updated:</span>{" "}
+      {metadata["last_updated"]}
     </div>
   );
 }

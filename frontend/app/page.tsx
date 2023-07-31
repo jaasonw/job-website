@@ -1,3 +1,4 @@
+import Stats from "$lib/components/stats";
 import JobsTable from "$lib/components/table";
 import Updated from "$lib/components/updated";
 import { UPDATE_INTERVAL } from "$lib/src/constants";
@@ -40,9 +41,12 @@ export default function Home() {
               LinkedIn, Indeed, and other job board sites all manage to have
               inaccurate filters. Searches for "entry-level" positions end up
               yielding several listings for positions requiring 5+ years of
-              experience and senior level positions. This site aims to fix that
-              by automatically filtering and curating job listings for new
-              grads.
+              experience and senior level positions. Additionally, my personal
+              conspiracy theory is that Linkedin is not in the business of
+              actually helping you get a job since the longer you stay on their
+              site with no job, the more likely you are to buy premium. This
+              site aims to fix that by automatically cutting out the crap and BS
+              job listings.
             </p>
           </div>
           <div>
@@ -56,15 +60,16 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-xl font-bold">
-              How do you know if a job is suitable for new grads?
+              How do you know if a job is actually entry level?
             </h3>
             <p className="text-lg">
-              We use advanced artificial intelligence and language models to-
-              Nah I'm just kidding, just a simple regex and keyword search. For
-              instance, if a job listing contains the word "senior", we can just
-              throw it out. Additionally, we parse out the years of experience
-              from the job description and throw out anything asking for more
-              than 3 years.
+              We use artificial intelligence and language models to- Nah I'm
+              just kidding, just a regex and keyword search. For instance, if a
+              job listing contains the word "senior", we can just throw it out.
+              Additionally, we parse out the years of experience from the job
+              description and throw out anything asking for more than 3 years.
+              It's not perfect but it does a good job at cutting out a lot of
+              crap that isn't relevant in the first place.
             </p>
           </div>
           <div>
@@ -75,7 +80,7 @@ export default function Home() {
               See:{" "}
               <a
                 className="underline"
-                href="https://github.com/jaasonw/sweify/blob/main/src/transform/__init__.py#L37"
+                href="https://github.com/jaasonw/sweify/blob/main/blacklist.txt"
               >
                 here
               </a>
@@ -106,9 +111,15 @@ export default function Home() {
           </div>
           <div>
             <h3 className="text-xl font-bold">How often will this update?</h3>
-            <p className="text-lg">The plan is to update this every 5 hours but sometimes my cron job has other ideas ¯\_(ツ)_/¯</p>
+            <p className="text-lg">
+              The plan is to update this every 5 hours but sometimes my cron job
+              has other ideas ¯\_(ツ)_/¯
+            </p>
           </div>
         </div>
+      </section>
+      <section className="my-20">
+        <Stats />
       </section>
     </section>
   );
