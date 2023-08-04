@@ -38,7 +38,9 @@ def convert_relative_date_to_timestamp(relative_date_string):
 
 def get_years_of_experience(description):
     # get all things that look like "5 years", "5+ years", "1-4 years"
-    years_of_experience = re.findall(r"\(?\d+[+-]?\d*\)? years?", description)
+    years_of_experience = re.findall(
+        r"\(?\d+[+-]?\d*\)? years?", description, re.IGNORECASE
+    )
 
     try:
         # if there are no years of experience, return None
