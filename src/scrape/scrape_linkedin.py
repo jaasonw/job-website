@@ -20,7 +20,7 @@ class LinkedinSpider(scrapy.Spider):
         with open("linkedin.csv", "w") as f:
             writer = csv.writer(f)
             writer.writerow(
-                ["URL", "Title", "Company", "Date", "Description", "Location"]
+                ["URL", "Title", "Company", "Date", "Description", "Location", "Source"]
             )
 
         params = {
@@ -96,6 +96,7 @@ class LinkedinSpider(scrapy.Spider):
             "date_posted": date_posted,
             "description": description,
             "location": location,
+            "source": self.name,
         }
         with open("linkedin.csv", "a") as f:
             writer = csv.writer(f)
