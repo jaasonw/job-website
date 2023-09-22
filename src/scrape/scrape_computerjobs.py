@@ -39,9 +39,9 @@ class ComputerjobsSpider(scrapy.Spider):
     def parse_job(self, response):
         self.log(response.url)
         description = (
-            response.xpath("//*[@id='md_skills']")
+            " ".join(response.xpath("//*[@id='md_skills']")
                 .css("*::text")
-                .extract()
+                .extract())
         )
         date_posted = (
             response.xpath("//*[@id='md_posted_date']/text()").get().strip()
@@ -67,12 +67,3 @@ class ComputerjobsSpider(scrapy.Spider):
         with open(self.name + ".csv", "a") as f:
             writer = csv.writer(f)
             writer.writerow(list(result.values()))
-
-
-
-def scrape():
-    process = CrawlerProcess()
-    process.crawl(ComputerjobsSpider)
-    process.start()
-
-scrape()
