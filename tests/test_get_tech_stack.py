@@ -14,7 +14,7 @@ def test_get_tech_stack():
             """
     )
     assert sorted(case_1) == sorted(
-        ["React", "Bootstrap", "Javascript", "Css", "Memcached", "Typescript", "Redis"]
+        ["React", "Bootstrap", "Javascript", "CSS", "Memcached", "Typescript", "Redis"]
     )
     case_2 = get_tech_stack(
         """
@@ -55,7 +55,7 @@ def test_get_tech_stack():
             """
     )
     assert sorted(case_2) == sorted(
-        ["Sql", "Azure", "Git", "Nosql", "Google Cloud", "Java", "Spring", "Aws"]
+        ["SQL", "Azure", "Git", "NoSQL", "Google Cloud", "Java", "Spring", "AWS"]
     )
 
     case_3 = get_tech_stack(
@@ -92,5 +92,5 @@ def test_get_tech_stack():
         """
     )
     assert sorted(case_3) == sorted(
-        ["Typescript", "C", "Javascript", "Css", "React", "Vue"]
+        ["Typescript", "C", "Javascript", "CSS", "React", "Vue"]
     )
