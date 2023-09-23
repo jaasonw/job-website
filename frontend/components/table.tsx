@@ -9,9 +9,9 @@ async function load() {
   const csv = await resp.text();
   let parsed = Papa.parse(csv);
 
-  // remove 4th column from data
+  // remove 4th and 6th column from data
   parsed.data = parsed.data.map((col: any) =>
-    col.filter((_: any, i: number) => i !== 4),
+    col.filter((_: any, i: number) => i !== 4 && i !== 6),
   );
   return parsed.data;
 }
