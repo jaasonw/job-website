@@ -20,7 +20,7 @@ class LinkedinSpider(scrapy.Spider):
         with open("linkedin.csv", "w") as f:
             writer = csv.writer(f)
             writer.writerow(
-                ["URL", "Title", "Company", "Date", "Description", "Location"]
+                ["URL", "Title", "Company", "Date", "Description", "Location", "Source"]
             )
 
         params = {
@@ -45,8 +45,8 @@ class LinkedinSpider(scrapy.Spider):
 
     def parse_job_list(self, response):
         job_list = [
-            urljoin(url, urlparse(url).path)
-            for url in response.xpath("/html/body/li/div/a").xpath("@href").getall()
+            urljoin(url, urlparse(url).path) 
+                for url in response.xpath("/html/body/li/div/a").xpath("@href").getall()
         ]
         self.log(job_list)
         yield from response.follow_all(job_list, self.parse_job)
@@ -96,14 +96,9 @@ class LinkedinSpider(scrapy.Spider):
             "date_posted": date_posted,
             "description": description,
             "location": location,
+            "source": self.name,
         }
         with open("linkedin.csv", "a") as f:
             writer = csv.writer(f)
             writer.writerow(list(result.values()))
         # yield result["url"]
-
-
-def scrape():
-    process = CrawlerProcess()
-    process.crawl(LinkedinSpider)
-    process.start()
