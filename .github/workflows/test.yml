@@ -6,6 +6,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+      - name: Set Timezone to US/Pacific
+        run: |
+          sudo ln -snf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+          echo "America/Los_Angeles" | sudo tee /etc/timezone
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up python
