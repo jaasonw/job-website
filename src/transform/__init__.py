@@ -18,13 +18,17 @@ from transform.util import (
 
 load_dotenv()
 
+
 def parse(upload=False):
     metadata = {}
     pd.set_option("display.max_rows", None)
 
-    df_linkedin = filter_data_to_df("linkedin", convert_relative_date_to_timestamp, metadata)
+    df_linkedin = filter_data_to_df(
+        "linkedin", convert_relative_date_to_timestamp, metadata
+    )
     df_compjobs = filter_data_to_df("computerjobs", convert_time_to_isoformat, metadata)
     df_merged = pd.concat([df_linkedin, df_compjobs])
+    df_merged = df_merged.sort_values(by=["Date"], ascending=False)
 
     # print(df_merged)
 
@@ -43,7 +47,8 @@ def parse(upload=False):
 
         # requests.request("GET", os.environ.get("REVALIDATE_URL"))
 
-def filter_data_to_df(company:str, dateConversion, metadata: dict):
+
+def filter_data_to_df(company: str, dateConversion, metadata: dict):
     date_format = "%m/%d/%Y %I:%M:%S %p %Z"
     date = datetime.now(tz=pytz.utc)
     date = date.astimezone(timezone("US/Pacific"))
@@ -110,5 +115,3 @@ def filter_data_to_df(company:str, dateConversion, metadata: dict):
     df = df.fillna("")
 
     return df
-
-

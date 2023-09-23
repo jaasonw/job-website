@@ -4,11 +4,13 @@ from pytz import timezone
 import re
 import statistics
 
+
 def convert_time_to_isoformat(date_string):
     date_format = "%m/%d/%Y %I:%M:%S %p"
     date = datetime.strptime(date_string, date_format)
     date = date.astimezone(timezone("US/Pacific"))
     return date.isoformat()
+
 
 def convert_relative_date_to_timestamp(relative_date_string):
     relative_date_string = relative_date_string.lower()

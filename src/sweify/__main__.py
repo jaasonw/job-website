@@ -14,9 +14,11 @@ def scrape():
     spider.crawl(ComputerjobsSpider)
     spider.start()
 
+
 def etl():
     scrape()
     parse(upload=True)
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:

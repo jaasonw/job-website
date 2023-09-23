@@ -3,7 +3,6 @@ import urllib.parse
 from urllib.parse import urljoin, urlparse
 
 import scrapy
-from scrapy.crawler import CrawlerProcess
 
 
 class LinkedinSpider(scrapy.Spider):
@@ -45,8 +44,8 @@ class LinkedinSpider(scrapy.Spider):
 
     def parse_job_list(self, response):
         job_list = [
-            urljoin(url, urlparse(url).path) 
-                for url in response.xpath("/html/body/li/div/a").xpath("@href").getall()
+            urljoin(url, urlparse(url).path)
+            for url in response.xpath("/html/body/li/div/a").xpath("@href").getall()
         ]
         self.log(job_list)
         yield from response.follow_all(job_list, self.parse_job)
