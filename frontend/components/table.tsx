@@ -20,7 +20,7 @@ interface Job {
 }
 
 async function load() {
-  const url = "http://localhost:3000/api/jobs";
+  const url = process.env.URL + "/api/jobs";
   const resp = await fetch(url, {
     cache: "no-store",
   });
