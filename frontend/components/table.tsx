@@ -20,7 +20,7 @@ interface Job {
 }
 
 async function load() {
-  const url = process.env.GOOGLE_SHEETS_JOBS_URL ?? "";
+  const url = process.env.GOOGLE_SHEETS_URL ?? "";
   const resp = await fetch(url, {
     cache: "no-store",
   });
