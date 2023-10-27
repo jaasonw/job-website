@@ -68,7 +68,11 @@ export default async function JobsTable() {
                       </TableCell>
                     );
                   default:
-                    return <TableCell key={value} className="px-6 py-4">{value}</TableCell>;
+                    return (
+                      <TableCell key={value} className="px-6 py-4">
+                        {value}
+                      </TableCell>
+                    );
                 }
               })}
             </TableRow>
