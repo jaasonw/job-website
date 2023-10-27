@@ -25,7 +25,6 @@ async function load() {
     cache: "no-store",
   });
   const csv = await resp.text();
-  console.log(csv)
   let parsed = Papa.parse(csv, { header: true });
 
   const data = parsed.data.map((col: any) => {
