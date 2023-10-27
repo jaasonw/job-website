@@ -1,22 +1,37 @@
 import os
 import sys
+from datetime import datetime
 
-import pytz
+import numpy as np
 import pandas as pd
 import pygsheets
-
-from datetime import datetime
-from pytz import timezone
+import pytz
 from dotenv import load_dotenv
+from pytz import timezone
+from shillelagh.backends.apsw.db import connect
 
 from transform.util import (
     convert_relative_date_to_timestamp,
-    get_years_of_experience,
-    get_tech_stack,
     convert_time_to_isoformat,
+    get_tech_stack,
+    get_years_of_experience,
 )
 
 load_dotenv()
+blacklist_db = "https://docs.google.com/spreadsheets/d/1Rp1yFWi6yJMhUGq2fkfGUhkmteScma5r9XkUEbqhq14/edit#gid=206068366"
+all_listings_db = "https://docs.google.com/spreadsheets/d/1Rp1yFWi6yJMhUGq2fkfGUhkmteScma5r9XkUEbqhq14/edit#gid=1442393429"
+
+
+
+def get_blacklist():
+    connection = connect(":memory:")
+    cursor = connection.cursor()
+    SQL = f"""
+    SELECT *
+    FROM "{blacklist_db}"
+    """
+    rows = [row for row in cursor.execute(SQL)]
+    return np.ravel(rows).tolist()
 
 
 def parse(upload=False):
@@ -28,15 +43,27 @@ def parse(upload=False):
     )
     df_compjobs = filter_data_to_df("computerjobs", convert_time_to_isoformat, metadata)
     df_merged = pd.concat([df_linkedin, df_compjobs])
-    df_merged = df_merged.sort_values(by=["Date"], ascending=False)
 
-    # print(df_merged)
+    connection = connect(":memory:")
+    cursor = connection.cursor()
+    SQL = f"""
+    INSERT INTO df_merged
+    SELECT * FROM "{all_listings_db}"
+    WHERE NOT EXISTS (
+        SELECT 1 FROM df_merged
+        WHERE df_merged.URL = "{all_listings_db}".URL
+    )
+    """
+    cursor.execute(SQL)
+    df_merged = df_merged.sort_values(by=["Date"], ascending=False)
 
     if upload or len(sys.argv) > 1 and sys.argv[1] == "--upload":
         gc = pygsheets.authorize(service_file="service_account_credential.json")
 
         sh = gc.open_by_key(os.getenv("GOOGLE_SHEETS_ID"))
-        sh.sheet1.set_dataframe(df_merged, "A1", copy_head=True)
+        sh.worksheet_by_title("all_listings").set_dataframe(
+            df_merged, "A1", copy_head=True
+        )
 
         print(metadata)
         metadata_df = pd.DataFrame.from_dict(metadata)
@@ -44,9 +71,6 @@ def parse(upload=False):
         sh.worksheet_by_title("Metadata").set_dataframe(
             metadata_df, "A1", copy_head=True
         )
-
-        # requests.request("GET", os.environ.get("REVALIDATE_URL"))
-
 
 def filter_data_to_df(company: str, dateConversion, metadata: dict):
     date_format = "%m/%d/%Y %I:%M:%S %p %Z"
@@ -60,53 +84,36 @@ def filter_data_to_df(company: str, dateConversion, metadata: dict):
     df["Technologies"] = df["Description"].map(lambda x: ", ".join(get_tech_stack(x)))
     df["Years of Experience"] = df["Description"].map(get_years_of_experience)
 
-    # remove rows with more than 3 years of experience but keep Nans
-    jobs_n = len(df)
-    df = df[(df["Years of Experience"] <= 3) | (df["Years of Experience"].isnull())]
+    # set default values
+    df["Senior"] = False
+    df["Mid"] = False
+    df["Intern"] = False
+    df["Blacklist"] = False
 
-    # remove rows that contain the word senior staff or principal
-    df = df[~df["Title"].str.contains("Senior")]
-    df = df[~df["Title"].str.contains("Sr.")]
-    df = df[~df["Description"].str.contains("Senior")]
-    df = df[~df["Description"].str.contains("Sr.")]
-    df = df[~df["Title"].str.contains("Staff")]
-    df = df[~df["Description"].str.contains("Staff")]
-    df = df[~df["Title"].str.contains("Principal")]
-    df = df[~df["Description"].str.contains("Principal")]
+    # mark all rows containing senior
+    senior = ["Senior", "Sr.", "Staff", "Principal", "Manager", "Lead"]
+    df["Senior"] = df.apply(lambda row: any(keyword.lower() in (row["Title"] + row["Description"]).lower() for keyword in senior), axis=1)
 
-    # remove rows that contain the word mid
-    df = df[~df["Title"].str.contains("Mid")]
+    # mark all rows containing mid
+    mid = ["Mid", "II", "III"]
+    df["Mid"] = df.apply(lambda row: any(keyword.lower() in (row["Title"] + row["Description"]).lower() for keyword in mid), axis=1)
 
-    # remove rows that contain II or III
-    df = df[~df["Title"].str.contains("II")]
-    df = df[~df["Title"].str.contains("III")]
+    # mark all rows containing intern
+    mid = ["Intern", "Internship"]
+    df["Intern"] = df.apply(lambda row: any(keyword.lower() in (row["Title"] + row["Description"]).lower() for keyword in mid), axis=1)
 
-    if "high_experience" in metadata:
-        metadata["high_experience"] += jobs_n - len(df)
-    else:
-        metadata["high_experience"] = jobs_n - len(df)
-
-    # remove rows that contain the TS or SCI
-    num_ts_sci = len(df)
-    df = df[~df["Description"].str.contains("TS/SCI")]
-    if "ts_sci" in metadata:
-        metadata["ts_sci"] += num_ts_sci - len(df)
-    else:
-        metadata["ts_sci"] = num_ts_sci - len(df)
+    # mark all rows containing TS/SCI
+    df["TS_SCI"] = df["Title"].str.contains("TS/SCI", case=False) | df[
+        "Description"
+    ].str.contains("TS/SCI", case=False)
 
     # sort by date posted
     df = df.sort_values(by=["Date"], ascending=False)
 
-    with open("blacklist.txt", "r") as f:
-        blacklist = f.read().splitlines()
 
     # remove rows that contain blacklisted agencies
-    num_blacklist = len(df)
-    df = df[~df["Company"].str.contains("|".join(blacklist), na=False)]
-    if "blacklist" in metadata:
-        metadata["blacklist"] += num_blacklist - len(df)
-    else:
-        metadata["blacklist"] = num_blacklist - len(df)
+    blacklist = get_blacklist()
+    df["Blacklist"] = df.apply(lambda row: any(keyword.lower() in row["Company"].lower() for keyword in blacklist), axis=1)
 
     # convert 2023-07-18T17:11:43.566939 to 2023-07-18
     df["Date"] = df["Date"].str.split("T").str[0]

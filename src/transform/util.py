@@ -55,23 +55,6 @@ def get_years_of_experience(description):
         # if there are no years of experience, return None
         if years_of_experience:
             # for each year of experience, get the average (for cases of ranges)
-            print(years_of_experience)
-            print(
-                [
-                    int(
-                        statistics.mean(
-                            [
-                                int(e)
-                                for e in re.split("[^0-9]", year.split(" ")[0])
-                                # only include years of experience that are less than 12
-                                # avoids edge cases like "in business for 100 years"
-                                if e != "" and int(e) < 14
-                            ]
-                        )
-                    )
-                    for year in years_of_experience
-                ]
-            )
             years_of_experience = max(
                 [
                     int(
