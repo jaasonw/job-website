@@ -1,4 +1,5 @@
 import Papa from "papaparse";
+import { Badge } from "$lib/components/shadcn/components/ui/badge";
 
 async function getMetadata() {
   const url = process.env.GOOGLE_SHEETS_METADATA_URL ?? "";
@@ -13,9 +14,9 @@ async function getMetadata() {
 export default async function Updated() {
   const metadata = await getMetadata();
   return (
-    <div className="bg-green-400 p-1 rounded-md">
+    <Badge>
       <span className="font-bold">Last updated:</span>{" "}
       {metadata["last_updated"]}
-    </div>
+    </Badge>
   );
 }

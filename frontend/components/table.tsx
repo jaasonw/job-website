@@ -1,4 +1,13 @@
 import Papa from "papaparse";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "$lib/components/shadcn/components/ui/table";
 
 interface Job {
   URL: string;
@@ -11,11 +20,12 @@ interface Job {
 }
 
 async function load() {
-  const url = process.env.GOOGLE_SHEETS_URL ?? "";
+  const url = "http://localhost:3000/api/jobs";
   const resp = await fetch(url, {
     cache: "no-store",
   });
   const csv = await resp.text();
+  console.log(csv)
   let parsed = Papa.parse(csv, { header: true });
 
   const data = parsed.data.map((col: any) => {
@@ -37,35 +47,35 @@ export default async function JobsTable() {
   const keys = Object.keys(data[0]);
   return (
     <div className="w-full h-[50vh] overflow-x-scroll overflow-y-scroll">
-      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-        <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
+      <Table>
+        <TableHeader>
+          <TableRow key={"header"}>
             {keys.map((col: any) => (
-              <th className="px-6 py-3">{col}</th>
+              <TableHead key={col}>{col}</TableHead>
             ))}
-          </tr>
-        </thead>
-        <tbody>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
           {data.map((row) => (
-            <tr>
+            <TableRow key={row.URL}>
               {Object.entries(row).map(([key, value]) => {
                 switch (key) {
                   case "URL":
                     return (
-                      <td className="px-6 py-4">
+                      <TableCell key={value} className="px-6 py-4">
                         <a className="underline" href={value} target="_blank">
                           Apply
                         </a>
-                      </td>
+                      </TableCell>
                     );
                   default:
-                    return <td className="px-6 py-4">{value}</td>;
+                    return <TableCell key={value} className="px-6 py-4">{value}</TableCell>;
                 }
               })}
-            </tr>
+            </TableRow>
           ))}
-        </tbody>
-      </table>
+        </TableBody>
+      </Table>
     </div>
   );
 }
