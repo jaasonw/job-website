@@ -20,7 +20,7 @@ interface Job {
 }
 
 async function load() {
-  const url = `http://${(process.env.URL ?? process.env.VERCEL_URL)}/api/jobs`;
+  const url = `${process.env.BACKEND_URL}/api/jobs`;
   const resp = await fetch(url, {
     cache: "no-store",
   });
