@@ -86,7 +86,7 @@ def filter_data_to_df(company: str, dateConversion, metadata: dict):
     df["Blacklist"] = False
 
     # mark all rows containing senior
-    senior = ["Senior", "Sr.", "Staff", "Principal", "Manager", "Lead"]
+    senior = ["Senior", "Sr.", "Principal", "Manager"]
     df["Senior"] = df.apply(
         lambda row: any(
             keyword.lower() in (row["Title"] + row["Description"]).lower()
