@@ -194,4 +194,4 @@ def get_tech_stack(description):
         if re.search(f"\\b{re.escape(tech.lower())}\\b", description.lower()):
             tech_stack.add(tech)
 
-    return list(tech_stack)
+    return sorted(list(tech_stack))

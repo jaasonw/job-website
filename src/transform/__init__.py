@@ -9,6 +9,7 @@ import pytz
 from dotenv import load_dotenv
 from pytz import timezone
 from shillelagh.backends.apsw.db import connect
+from sqlalchemy.engine import create_engine
 
 from transform.util import (
     convert_relative_date_to_timestamp,
@@ -20,7 +21,6 @@ from transform.util import (
 load_dotenv()
 blacklist_db = "https://docs.google.com/spreadsheets/d/1Rp1yFWi6yJMhUGq2fkfGUhkmteScma5r9XkUEbqhq14/edit#gid=206068366"
 all_listings_db = "https://docs.google.com/spreadsheets/d/1Rp1yFWi6yJMhUGq2fkfGUhkmteScma5r9XkUEbqhq14/edit#gid=1442393429"
-
 
 
 def get_blacklist():
@@ -44,17 +44,15 @@ def parse(upload=False):
     df_compjobs = filter_data_to_df("computerjobs", convert_time_to_isoformat, metadata)
     df_merged = pd.concat([df_linkedin, df_compjobs])
 
-    connection = connect(":memory:")
-    cursor = connection.cursor()
+    engine = create_engine("shillelagh://")
+    connection = engine.connect()
     SQL = f"""
-    INSERT INTO df_merged
-    SELECT * FROM "{all_listings_db}"
-    WHERE NOT EXISTS (
-        SELECT 1 FROM df_merged
-        WHERE df_merged.URL = "{all_listings_db}".URL
-    )
+    SELECT * FROM df_merged
+    UNION
+    SELECT * FROM "{all_listings_db}";
     """
-    cursor.execute(SQL)
+    # cursor.execute(SQL)
+    df_merged = pd.read_sql(SQL, connection)
     df_merged = df_merged.sort_values(by=["Date"], ascending=False)
 
     if upload or len(sys.argv) > 1 and sys.argv[1] == "--upload":
@@ -71,6 +69,7 @@ def parse(upload=False):
         sh.worksheet_by_title("Metadata").set_dataframe(
             metadata_df, "A1", copy_head=True
         )
+
 
 def filter_data_to_df(company: str, dateConversion, metadata: dict):
     date_format = "%m/%d/%Y %I:%M:%S %p %Z"
@@ -92,15 +91,33 @@ def filter_data_to_df(company: str, dateConversion, metadata: dict):
 
     # mark all rows containing senior
     senior = ["Senior", "Sr.", "Staff", "Principal", "Manager", "Lead"]
-    df["Senior"] = df.apply(lambda row: any(keyword.lower() in (row["Title"] + row["Description"]).lower() for keyword in senior), axis=1)
+    df["Senior"] = df.apply(
+        lambda row: any(
+            keyword.lower() in (row["Title"] + row["Description"]).lower()
+            for keyword in senior
+        ),
+        axis=1,
+    )
 
     # mark all rows containing mid
     mid = ["Mid", "II", "III"]
-    df["Mid"] = df.apply(lambda row: any(keyword.lower() in (row["Title"] + row["Description"]).lower() for keyword in mid), axis=1)
+    df["Mid"] = df.apply(
+        lambda row: any(
+            keyword.lower() in (row["Title"] + row["Description"]).lower()
+            for keyword in mid
+        ),
+        axis=1,
+    )
 
     # mark all rows containing intern
     mid = ["Intern", "Internship"]
-    df["Intern"] = df.apply(lambda row: any(keyword.lower() in (row["Title"] + row["Description"]).lower() for keyword in mid), axis=1)
+    df["Intern"] = df.apply(
+        lambda row: any(
+            keyword.lower() in (row["Title"] + row["Description"]).lower()
+            for keyword in mid
+        ),
+        axis=1,
+    )
 
     # mark all rows containing TS/SCI
     df["TS_SCI"] = df["Title"].str.contains("TS/SCI", case=False) | df[
@@ -110,10 +127,14 @@ def filter_data_to_df(company: str, dateConversion, metadata: dict):
     # sort by date posted
     df = df.sort_values(by=["Date"], ascending=False)
 
-
     # remove rows that contain blacklisted agencies
     blacklist = get_blacklist()
-    df["Blacklist"] = df.apply(lambda row: any(keyword.lower() in row["Company"].lower() for keyword in blacklist), axis=1)
+    df["Blacklist"] = df.apply(
+        lambda row: any(
+            keyword.lower() in row["Company"].lower() for keyword in blacklist
+        ),
+        axis=1,
+    )
 
     # convert 2023-07-18T17:11:43.566939 to 2023-07-18
     df["Date"] = df["Date"].str.split("T").str[0]
