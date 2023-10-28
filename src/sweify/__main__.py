@@ -4,6 +4,7 @@ import time
 import schedule
 from scrape.scrape_computerjobs import ComputerjobsSpider
 from scrape.scrape_linkedin import LinkedinSpider
+from scrape.scrape_simplify_github import get_simplify_github
 from scrapy.crawler import CrawlerProcess
 from transform import parse
 
@@ -13,6 +14,7 @@ def scrape():
     spider.crawl(LinkedinSpider)
     spider.crawl(ComputerjobsSpider)
     spider.start()
+    get_simplify_github()
 
 
 def etl():

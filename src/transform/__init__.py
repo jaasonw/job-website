@@ -29,6 +29,14 @@ def get_blacklist():
     rows = [row for row in cursor.execute(SQL)]
     return np.ravel(rows).tolist()
 
+def set_defaults(df):
+    df["Senior"] = False
+    df["Mid"] = False
+    df["Intern"] = False
+    df["Blacklist"] = False
+    df["TS_SCI"] = False
+    return df
+
 
 def parse(upload=False):
     metadata = {}
@@ -38,7 +46,9 @@ def parse(upload=False):
         "linkedin", convert_relative_date_to_timestamp, metadata
     )
     df_compjobs = filter_data_to_df("computerjobs", convert_time_to_isoformat, metadata)
-    df_merged = pd.concat([df_linkedin, df_compjobs])
+    df_simplify = pd.read_csv("simplify.csv")
+    df_simplify = set_defaults(df_simplify)
+    df_merged = pd.concat([df_linkedin, df_compjobs, df_simplify])
 
     connection = connect(":memory:")
     cursor = connection.cursor()
@@ -48,7 +58,6 @@ def parse(upload=False):
     WHERE all_listings.URL NOT IN (SELECT URL FROM df_merged)
     """
     cursor.execute(SQL)
-    # df_merged = pd.read_sql(SQL, connection)
     df_merged = df_merged.sort_values(by=["Date"], ascending=False)
 
     if upload or len(sys.argv) > 1 and sys.argv[1] == "--upload":
@@ -80,10 +89,7 @@ def filter_data_to_df(company: str, dateConversion, metadata: dict):
     df["Years of Experience"] = df["Description"].map(get_years_of_experience)
 
     # set default values
-    df["Senior"] = False
-    df["Mid"] = False
-    df["Intern"] = False
-    df["Blacklist"] = False
+    df = set_defaults(df)
 
     # mark all rows containing senior
     senior = ["Senior", "Sr.", "Principal", "Manager"]
