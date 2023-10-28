@@ -9,14 +9,10 @@ import pytz
 from dotenv import load_dotenv
 from pytz import timezone
 from shillelagh.backends.apsw.db import connect
-from sqlalchemy.engine import create_engine
 
-from transform.util import (
-    convert_relative_date_to_timestamp,
-    convert_time_to_isoformat,
-    get_tech_stack,
-    get_years_of_experience,
-)
+from transform.util import (convert_relative_date_to_timestamp,
+                            convert_time_to_isoformat, get_tech_stack,
+                            get_years_of_experience)
 
 load_dotenv()
 blacklist_db = "https://docs.google.com/spreadsheets/d/1Rp1yFWi6yJMhUGq2fkfGUhkmteScma5r9XkUEbqhq14/edit#gid=206068366"
@@ -44,15 +40,15 @@ def parse(upload=False):
     df_compjobs = filter_data_to_df("computerjobs", convert_time_to_isoformat, metadata)
     df_merged = pd.concat([df_linkedin, df_compjobs])
 
-    engine = create_engine("shillelagh://")
-    connection = engine.connect()
+    connection = connect(":memory:")
+    cursor = connection.cursor()
     SQL = f"""
-    SELECT * FROM df_merged
-    UNION
-    SELECT * FROM "{all_listings_db}";
+    INSERT INTO df_merged
+    SELECT * FROM "{all_listings_db}" as all_listings
+    WHERE all_listings.URL NOT IN (SELECT URL FROM df_merged)
     """
-    # cursor.execute(SQL)
-    df_merged = pd.read_sql(SQL, connection)
+    cursor.execute(SQL)
+    # df_merged = pd.read_sql(SQL, connection)
     df_merged = df_merged.sort_values(by=["Date"], ascending=False)
 
     if upload or len(sys.argv) > 1 and sys.argv[1] == "--upload":
