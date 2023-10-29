@@ -10,8 +10,8 @@ def get_simplify_github():
     for item in payload:
         item["locations"] = ", ".join(item["locations"])
         df = pd.DataFrame(payload)
-        df = df[df["active"] is not False]
-        df = df[df["is_visible"] is not False]
+        df = df[df["active"] != False]  # noqa: E712
+        df = df[df["is_visible"] != False]  # noqa: E712
         df["date_updated"] = pd.to_datetime(df["date_updated"], unit="s")
         df["date_posted"] = pd.to_datetime(df["date_posted"], unit="s")
         df["date_updated"] = df["date_updated"].dt.date
