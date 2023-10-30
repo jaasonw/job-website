@@ -1,14 +1,13 @@
-import Papa from "papaparse";
 import { Badge } from "$lib/components/shadcn/components/ui/badge";
 
 async function getMetadata() {
-  const url = process.env.GOOGLE_SHEETS_METADATA_URL ?? "";
+  const url = `${process.env.BACKEND_URL}/api/stats` ?? "";
   const resp = await fetch(url, {
     cache: "no-store",
   });
-  const csv = await resp.text();
-  let parsed: any = Papa.parse(csv, { header: true });
-  return parsed.data[0];
+  const data = await resp.text();
+  let parsed: any = JSON.parse(data);
+  return parsed;
 }
 
 export default async function Updated() {

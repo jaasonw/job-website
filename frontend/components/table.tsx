@@ -1,15 +1,8 @@
 import Papa from "papaparse";
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "$lib/components/shadcn/components/ui/table";
+import JobCard from "$lib/components/jobcard";
+import { Paginated } from "./paginated";
 
-interface Job {
+export interface Job {
   URL: string;
   Title: string;
   Company: string;
@@ -43,42 +36,12 @@ async function load() {
 
 export default async function JobsTable() {
   const data = (await load()) as Job[];
-  const keys = Object.keys(data[0]);
   return (
-    <div className="w-full h-[50vh] overflow-x-scroll overflow-y-scroll">
-      <Table>
-        <TableHeader>
-          <TableRow key={"header"}>
-            {keys.map((col: any) => (
-              <TableHead key={col}>{col}</TableHead>
-            ))}
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((row) => (
-            <TableRow key={row.URL}>
-              {Object.entries(row).map(([key, value]) => {
-                switch (key) {
-                  case "URL":
-                    return (
-                      <TableCell key={value} className="px-6 py-4">
-                        <a className="underline" href={value} target="_blank">
-                          Apply
-                        </a>
-                      </TableCell>
-                    );
-                  default:
-                    return (
-                      <TableCell key={value} className="px-6 py-4">
-                        {value}
-                      </TableCell>
-                    );
-                }
-              })}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+    <Paginated jobs={data} />
+    // <div className="grid grid-cols-4 gap-4">
+    //   {data.map((row) => (
+    //     <JobCard {...row} key={row.URL} />
+    //   ))}
+    // </div>
   );
 }
